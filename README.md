@@ -1,4 +1,4 @@
-# diamond_selection_app
+# Diamond Selection App
 
 * Initially, displaying splash page for 2 seconds, aftera that its navigating to Diamond List Page. 
 * In diamond list page, displaying all the diamonds data which is extracted from the excel sheet. 
