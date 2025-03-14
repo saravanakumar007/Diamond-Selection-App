@@ -20,56 +20,117 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_ios_new),
-          color: Colors.white,
-        ),
-        centerTitle: false,
-        backgroundColor: Colors.green,
-        title: Text(
-          'Diamond List',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: BlocBuilder<CartListCubit, CartListState>(
-        builder: (context, state) {
-          if (state is CartInitialState || state is CartLoadingState) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            );
-          } else if (state is CartSucessState) {
-            return state.data.isNotEmpty
-                ? ListView.separated(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(20),
-                  itemBuilder:
-                      (context, index) => DiamondCardWidget(
-                        data: state.data[index],
-                        index: index,
-                        isCartPage: true,
+    return BlocBuilder<CartListCubit, CartListState>(
+      builder:
+          (context, state) => Scaffold(
+            backgroundColor: Colors.white,
+            bottomNavigationBar: Builder(
+              builder: (context) {
+                return (state is CartSucessState)
+                    ? Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                        color: Colors.green,
                       ),
-                  separatorBuilder: (context, index) => SizedBox(height: 20),
-                  itemCount: state.data.length,
-                )
-                : Center(
-                  child: Text(
-                    'No Data Found',
-                    style: TextStyle(color: Colors.green, fontSize: 30),
-                  ),
-                );
-          } else {
-            return SizedBox();
-          }
-        },
-      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Total Carat : ${state.totalCarat.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            'Total Price : ${state.totalPrice.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            'Average Price : ${state.averagePrice.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            'Average Discount : ${state.averageDiscount.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                        ],
+                      ),
+                    )
+                    : SizedBox();
+              },
+            ),
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_ios_new),
+                color: Colors.white,
+              ),
+
+              backgroundColor: Colors.green,
+              title: Text(
+                'Cart',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            body: Builder(
+              builder: (context) {
+                if (state is CartInitialState || state is CartLoadingState) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  );
+                } else if (state is CartSucessState) {
+                  return state.data.isNotEmpty
+                      ? ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(20),
+                        itemBuilder:
+                            (context, index) => DiamondCardWidget(
+                              data: state.data[index],
+                              index: index,
+                              isCartPage: true,
+                            ),
+                        separatorBuilder:
+                            (context, index) => SizedBox(height: 20),
+                        itemCount: state.data.length,
+                      )
+                      : Center(
+                        child: Text(
+                          'No Data Found',
+                          style: TextStyle(color: Colors.green, fontSize: 30),
+                        ),
+                      );
+                } else {
+                  return SizedBox();
+                }
+              },
+            ),
+          ),
     );
   }
 }
