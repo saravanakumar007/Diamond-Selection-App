@@ -26,7 +26,9 @@ class _CartPageState extends State<CartPage> {
             backgroundColor: Colors.white,
             bottomNavigationBar: Builder(
               builder: (context) {
-                return (state is CartSucessState)
+                return (state is CartSucessState &&
+                        state.totalPrice > 0 &&
+                        state.totalCarat > 0)
                     ? Container(
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
