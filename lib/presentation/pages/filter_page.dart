@@ -1,5 +1,5 @@
 import 'package:diamond_selection_app/data/models/app_data_model.dart';
-import 'package:diamond_selection_app/presenatation/widgets/custom_drop_down_widget.dart';
+import 'package:diamond_selection_app/presentation/widgets/custom_drop_down_widget.dart';
 import 'package:flutter/material.dart';
 
 class FilterPage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _FilterPageState extends State<FilterPage> {
           Row(
             children: [
               Text(
-                AppDataModel.filterData['caratMin'].toString(),
+                'Carat ${AppDataModel.filterData['caratMin']}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.green,
@@ -175,7 +175,6 @@ class _FilterPageState extends State<FilterPage> {
             ],
           ),
           SizedBox(height: 20),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -187,7 +186,10 @@ class _FilterPageState extends State<FilterPage> {
               ),
               SizedBox(width: 20),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(100, 50),
+                  backgroundColor: Colors.green,
+                ),
                 onPressed: () {
                   AppDataModel.caratMin = rangeValues.start;
                   AppDataModel.caratMax = rangeValues.end;
@@ -201,6 +203,8 @@ class _FilterPageState extends State<FilterPage> {
               ),
             ],
           ),
+
+          SizedBox(height: 10),
         ],
       ),
     );

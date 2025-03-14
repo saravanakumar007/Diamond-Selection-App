@@ -3,8 +3,8 @@ import 'package:diamond_selection_app/business_logic/diamond_list/diamond_list_c
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DiamondWidget extends StatelessWidget {
-  const DiamondWidget({
+class DiamondCardWidget extends StatelessWidget {
+  const DiamondCardWidget({
     super.key,
     this.data,
     required this.index,
@@ -21,10 +21,10 @@ class DiamondWidget extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 1),
-            spreadRadius: 1,
-            blurRadius: 2,
-            color: Colors.green,
+            offset: Offset(0, 0),
+            spreadRadius: 0,
+            blurRadius: 5,
+            color: Colors.green.shade500,
           ),
         ],
         borderRadius: BorderRadius.circular(16),
@@ -59,8 +59,10 @@ class DiamondWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('ID : ${data['Lot ID']}'),
-                SizedBox(height: 5),
-                Text('Size : ${data['Size']}'),
+                if ((data['Size'] ?? '').toString().trim().isNotEmpty) ...[
+                  SizedBox(height: 5),
+                  Text('Size : ${data['Size']}'),
+                ],
                 SizedBox(height: 5),
                 Text('Carat : ${data['Carat']}'),
                 SizedBox(height: 5),
@@ -68,19 +70,30 @@ class DiamondWidget extends StatelessWidget {
                 SizedBox(height: 5),
                 Text('Per Carat Rate : ${data['Discount']}'),
                 SizedBox(height: 5),
+                Text(
+                  'Final Amount : ${data['Final Amount']}',
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
                 if ((data['Key To Symbol'] ?? '')
                     .toString()
                     .trim()
                     .isNotEmpty) ...[
+                  SizedBox(height: 5),
                   Flexible(
                     child: Text('Key to Symbol : ${data['Key To Symbol']}'),
                   ),
                 ],
-                SizedBox(height: 5),
+
                 if ((data['Lab Comment'] ?? '')
                     .toString()
                     .trim()
                     .isNotEmpty) ...[
+                  SizedBox(height: 5),
                   Flexible(child: Text('Lab Comment : ${data['Lab Comment']}')),
                 ],
                 SizedBox(height: 10),

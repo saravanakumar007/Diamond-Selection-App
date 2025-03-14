@@ -38,7 +38,7 @@ class DiamondListCubit extends Cubit<DiamondListState> {
   }
 
   Future<void> applyFilterAndSortingData() async {
-    final List<dynamic> filterData = [];
+    List<dynamic> filterData = [];
     for (int i = 0; i < diamondsData.length; i++) {
       final dynamic data = diamondsData[i];
       final String lab = (data['Lab'] ?? '').toString().trim();
@@ -68,28 +68,52 @@ class DiamondListCubit extends Cubit<DiamondListState> {
       }
     }
 
-    if (AppDataModel.finalPriceOrderType != 'None') {
-      filterData.sort((a, b) {
-        return AppDataModel.finalPriceOrderType == 'Ascending'
-            ? double.parse(
-              a['Final Amount'].toString(),
-            ).compareTo(double.parse(b['Final Amount'].toString()))
-            : double.parse(
-              b['Final Amount'].toString(),
-            ).compareTo(double.parse(a['Final Amount'].toString()));
-      });
-    }
+    if (AppDataModel.finalPriceOrderType != 'None' ||
+        AppDataModel.caratWeightOrderType != 'None') {
+      filterData =
+          filterData..sort((a, b) {
+            final double amountA = double.parse(a['Final Amount'].toString());
+            final double amountB = double.parse(b['Final Amount'].toString());
+            final double caratA = double.parse(a['Carat'].toString());
+            final double caratB = double.parse(b['Carat'].toString());
+            int compare = 0;
+            if (AppDataModel.finalPriceOrderType != 'None' &&
+                AppDataModel.caratWeightOrderType == 'None') {
+              compare =
+                  AppDataModel.finalPriceOrderType == 'Ascending'
+                      ? amountA.compareTo(amountB)
+                      : amountB.compareTo(amountA);
+            } else if (AppDataModel.finalPriceOrderType == 'None' &&
+                AppDataModel.caratWeightOrderType != 'None') {
+              compare =
+                  AppDataModel.caratWeightOrderType == 'Ascending'
+                      ? caratA.compareTo(caratB)
+                      : caratB.compareTo(caratA);
+            } else {
+              // Carat Ascending, Amount Descending
+              if (AppDataModel.caratWeightOrderType == 'Ascending' &&
+                  AppDataModel.finalPriceOrderType == 'Descending') {
+                compare = caratA.compareTo(caratB);
+                if (compare == 0) {
+                  compare = amountB.compareTo(amountA);
+                }
 
-    if (AppDataModel.caratWeightOrderType != 'None') {
-      filterData.sort((a, b) {
-        return AppDataModel.finalPriceOrderType == 'Ascending'
-            ? double.parse(
-              a['Carat'].toString(),
-            ).compareTo(double.parse(b['Carat'].toString()))
-            : double.parse(
-              b['Carat'].toString(),
-            ).compareTo(double.parse(a['Carat'].toString()));
-      });
+                /// Carat Descending, Amount Ascending
+              } else if (AppDataModel.caratWeightOrderType == 'Descending' &&
+                  AppDataModel.finalPriceOrderType == 'Ascending') {
+                compare = caratB.compareTo(caratA);
+                if (compare == 0) {
+                  compare = amountB.compareTo(amountA);
+                }
+              } else {
+                compare =
+                    AppDataModel.finalPriceOrderType == 'Ascending'
+                        ? amountA.compareTo(amountB)
+                        : amountB.compareTo(amountA);
+              }
+            }
+            return compare;
+          });
     }
 
     emit(

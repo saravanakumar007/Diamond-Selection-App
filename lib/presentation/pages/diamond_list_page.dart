@@ -6,10 +6,10 @@ import 'package:diamond_selection_app/business_logic/diamond_list/dimond_list_st
 import 'package:diamond_selection_app/data.dart';
 import 'package:diamond_selection_app/data/models/app_data_model.dart';
 import 'package:diamond_selection_app/data/repositories/cart_item_repository.dart';
-import 'package:diamond_selection_app/presenatation/pages/cart_page.dart';
-import 'package:diamond_selection_app/presenatation/pages/filter_page.dart';
-import 'package:diamond_selection_app/presenatation/widgets/diamond_widget.dart';
-import 'package:diamond_selection_app/presenatation/widgets/custom_drop_down_widget.dart';
+import 'package:diamond_selection_app/presentation/pages/cart_page.dart';
+import 'package:diamond_selection_app/presentation/pages/filter_page.dart';
+import 'package:diamond_selection_app/presentation/widgets/diamond_card_widget.dart';
+import 'package:diamond_selection_app/presentation/widgets/custom_drop_down_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -127,6 +127,7 @@ class _DiamondListPageState extends State<DiamondListPage> {
                     showSortModelBottomSheet();
                   },
                   child: Container(
+                    margin: EdgeInsets.only(right: 20),
                     height: 30,
                     width: 50,
                     decoration: BoxDecoration(
@@ -161,7 +162,7 @@ class _DiamondListPageState extends State<DiamondListPage> {
                         shrinkWrap: true,
                         padding: EdgeInsets.all(20),
                         itemBuilder:
-                            (context, index) => DiamondWidget(
+                            (context, index) => DiamondCardWidget(
                               data: state.data[index],
                               index: index,
                             ),
@@ -187,6 +188,7 @@ class _DiamondListPageState extends State<DiamondListPage> {
   void showFilterModelBottomSheet() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) => FilterPage(),
     ).then((_) {
       fetchFilterAndSortingData();
@@ -198,6 +200,7 @@ class _DiamondListPageState extends State<DiamondListPage> {
     String caratWeightOrderType = AppDataModel.caratWeightOrderType;
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder:
           (context) => Container(
             padding: EdgeInsets.all(20),

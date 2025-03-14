@@ -1,6 +1,6 @@
 import 'package:diamond_selection_app/business_logic/cart_list/cart_list_cubit.dart';
 import 'package:diamond_selection_app/business_logic/cart_list/cart_list_state.dart';
-import 'package:diamond_selection_app/presenatation/widgets/diamond_widget.dart';
+import 'package:diamond_selection_app/presentation/widgets/diamond_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +23,13 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_new),
+          color: Colors.white,
+        ),
         centerTitle: false,
         backgroundColor: Colors.green,
         title: Text(
@@ -44,7 +51,7 @@ class _CartPageState extends State<CartPage> {
                   shrinkWrap: true,
                   padding: EdgeInsets.all(20),
                   itemBuilder:
-                      (context, index) => DiamondWidget(
+                      (context, index) => DiamondCardWidget(
                         data: state.data[index],
                         index: index,
                         isCartPage: true,

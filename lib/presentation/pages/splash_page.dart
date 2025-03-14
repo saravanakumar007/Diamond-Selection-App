@@ -2,7 +2,7 @@ import 'package:diamond_selection_app/business_logic/diamond_list/diamond_list_c
 import 'package:diamond_selection_app/business_logic/splash/splash_cubit.dart';
 import 'package:diamond_selection_app/business_logic/splash/splash_state.dart';
 import 'package:diamond_selection_app/data/repositories/cart_item_repository.dart';
-import 'package:diamond_selection_app/presenatation/pages/diamond_list_page.dart';
+import 'package:diamond_selection_app/presentation/pages/diamond_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
